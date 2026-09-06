@@ -132,8 +132,8 @@ flowchart TD
 
 ## 📝 Bitácora de Progreso del Estudiante
 
-- [ ] **Fase 1:** Conexión inicial con WhatsApp y configuración de Node.js ESM.
-- [ ] **Fase 2:** Ingesta concurrente con `Promise.allSettled` y GNews.
-- [ ] **Fase 3:** Formateador funcional con métodos de Array y Template Literals.
-- [ ] **Fase 4:** Ensamblado modular y orquestación con control de excepciones.
+- [x] **Fase 1:** Conexión inicial con WhatsApp y configuración de Node.js ESM.
+- [x] **Fase 2:** Ingesta concurrente con `Promise.allSettled` y GNews.
+- [x] **Fase 3:** Formateador funcional con métodos de Array y Template Literals.
+- [x] **Fase 4:** Ensamblado modular y orquestación con control de excepciones.
 - [ ] **Fase 5:** Automatización serverless con GitHub Actions.
