@@ -1,12 +1,20 @@
-const API = process.env.GNEWS_API_KEY;
+const API = process.env.GUARDIAN_API_KEY;
 //una funcion async retorna Promise
 async function getCategoryNews(category) {
-  const url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=es&max=5&apikey=${API}`;
+  const url = `https://content.guardianapis.com/search?section=${category}&order-by=newest&page-size=5&api-key=${API}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Error en categoria ${category}: HTTP${response.status}`);
   }
-  const { articles } = await response.json(); //response guarda lo que retorna fetch
+  const data = await response.json(); //Promise parseado en JSON.
+  const articles = data.response.results.map((art) => {
+    //accedo a los results de la response del JSON
+    return {
+      title: art.webTitle,
+      url: art.webUrl,
+    };
+  });
+  //const { articles } = await response.json(); //response guarda lo que retorna fetch
   // response.json() lee el stream guardado en response, y lo parsea a un objeto de JavaScript
   // const { articles } desestructura toda la entrada, y solo extrae los datos con nombre articles
   return { category, articles };
@@ -26,7 +34,7 @@ function delay(ms) {
 //
 
 export async function getNews() {
-  const categories = ["technology", "science", "business", "world", "sports"];
+  const categories = ["world", "politics", "technology", "business"];
   //const promises = categories.map(getCategoryNews);
   //
   //obtengo un array de 5 Promises

@@ -11,13 +11,14 @@ export async function sendTelegram(message) {
     body: JSON.stringify({
       chat_id: TEL,
       text: message,
-      parse_mode: "Markdown",
+      parse_mode: "HTML",
     }),
   });
   if (response.ok) {
     console.log(`Exitoso ${response.status}`);
   } else {
-    throw new Error(`Error: ${response.status}`);
+    const errData = await response.json();
+    throw new Error(`\nError: ${response.status}: ${errData.description}`);
   }
   const data = await response.json();
   return data;
