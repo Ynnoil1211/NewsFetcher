@@ -9,9 +9,9 @@ const dic = {
   football: "Football",
   money: "Money",
 };
-
+//export para que pueda ser usado en otros archivos
 export function formatNews(results) {
-  const filtered = results.filter((item) => item.status === "fulfilled");
+  const filtered = results.filter((item) => item.status === "fulfilled"); //aqui filtered es un nuevo array con los items sin error
   const news = filtered.map((item) => {
     //for each item in filtered news
     const { category, articles } = item.value; //get category and articles from item
