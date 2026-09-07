@@ -1,11 +1,22 @@
 const API = process.env.GUARDIAN_API_KEY;
+const categories = {
+  world: "section=world",
+  //politics: "section=politics",
+  colombia: "tag=world/colombia",
+  technology: "section=technology",
+  business: "section=business",
+  environment: "section=environment",
+  science: "section=science",
+  football: "section=football",
+};
 //una funcion async retorna Promise
-async function getCategoryNews(category) {
-  const url = `https://content.guardianapis.com/search?section=${category}&order-by=newest&page-size=5&api-key=${API}`;
+async function getCategoryNews(catLlave) {
+  const url = `https://content.guardianapis.com/search?${categories[catLlave]}&order-by=newest&page-size=5&api-key=${API}`;
   const response = await fetch(url); //esperar hasta que el servidor responda con fetch
   //fetch retorna Promise
+
   if (!response.ok) {
-    throw new Error(`Error en categoria ${category}: HTTP${response.status}`); //.ok y .status son propiedades de una Promise
+    throw new Error(`Error en categoria ${catLlave}: HTTP${response.status}`); //.ok y .status son propiedades de una Promise
   } //early exit
 
   const data = await response.json(); //Parseamos el fetch a json
@@ -19,7 +30,9 @@ async function getCategoryNews(category) {
   });
   //
   // aqui tambien se puede usar const {articles} = await response.json(); para obtner directamente los articles, sin el .map
-  return { category, articles }; //retornamos la categoria entregada y los articles en un objeto
+  return { category: catLlave, articles };
+  //retornamos la categoria entregada y los articles en un objeto
+  // aqui asignamos catLlave a category para entendimiento
 }
 
 function delay(ms) {
@@ -36,8 +49,7 @@ function delay(ms) {
 
 //export para que pueda ser usado en otros archivos
 export async function getNews() {
-  const categories = ["world", "politics", "technology", "business"];
-
+  //const categories = ["world", "politics", "technology", "business"];
   //const promises = categories.map(getCategoryNews);
   //
   //obtengo un array de 5 Promises
@@ -55,11 +67,11 @@ export async function getNews() {
 
   //2da version del codigo:
   const results = [];
-  for (const cat of categories) {
+  for (const catLlave in categories) {
     try {
       const x = {
         status: "fulfilled",
-        value: await getCategoryNews(cat), // siempre se usa await cuando desea obtener el resultado de la ejecucion primero
+        value: await getCategoryNews(catLlave), // siempre se usa await cuando desea obtener el resultado de la ejecucion primero
       };
       //guardamos en x el resultado del fetch y el status, si no fue exitosa, simplemente se catchea el error
       results.push(x);

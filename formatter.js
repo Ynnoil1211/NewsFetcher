@@ -6,8 +6,9 @@ const dic = {
   environment: "Environment",
   science: "Science",
   film: "Film",
-  football: "Football",
+  football: "Futchibol",
   money: "Money",
+  colombia: "Colombia Local",
 };
 //export para que pueda ser usado en otros archivos
 export function formatNews(results) {
@@ -25,5 +26,12 @@ export function formatNews(results) {
       .join("\n"); //join each article together and save them into articlesText
     return `<b>${categoryName}</b>\n${articlesText}`; //return display name + articlesText
   });
-  return news.join("\n");
+  const mid = Math.ceil(news.length / 2);
+  const parte1 = news.slice(0, mid).join("\n");
+  const parte2 = news.slice(mid).join("\n");
+  const final = [parte1, parte2].filter((text) => text.trim().length !== 0);
+  //almacenamos en final el mensaje final dividido en dos,
+  // y antes de eso se verifica si luego de .trim() que elimina espacios el mensaje es vacio o no
+  // solo retornamos mensajes con mensjaes.
+  return final;
 }

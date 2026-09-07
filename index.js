@@ -4,11 +4,13 @@ import { sendTelegram } from "./botService.js";
 
 try {
   const news = await getNews();
-  const final = formatNews(news);
-  if (!final.trim())
-    //.trim() borra los espacios, si luego de eso resulta ser un string vacio (null en js), hay error
+  const messageList = formatNews(news);
+  if (messageList.length === 0)
     throw new Error(`La lista de noticias esta vacia`);
-  await sendTelegram(final); //aqui puede lanzar error
+
+  for (const message of messageList) {
+    await sendTelegram(message); //dividir el mensjae en dos separados
+  }
 } catch (error) {
   console.error("Error Ocurred." + error);
   process.exit(1);
